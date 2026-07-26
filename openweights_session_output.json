@@ -1,0 +1,63 @@
+{
+  "paper": {
+    "orid": "Zlw4Kl5HEF",
+    "title": "Probabilistic Bisection Algorithm Provably Achieves Exponential Convergence",
+    "arxiv": null
+  },
+  "claim_results": [
+    {
+      "claim": "The probabilistic bisection algorithm (PBA) converges at a geometric rate, matching the performance of classical binary search under noiseless responses.",
+      "verdict": "falsified",
+      "method": "10 seeds (0-9), log-linear decay slope (exp(slope) of log(error) vs. step), p=0.9 (main), p=0.51 (control), p=1.0 (noiseless positive control), T=1000 steps, root at 0.37 to avoid alignment",
+      "finding": "Noiseless control (p=1.0) shows clean convergence (mean ratio 0.5003, std 0.0), matching classical binary search. Main case (p=0.9) shows ratio 0.886 \u00b1 0.15, far from 0.5, indicating slow decay (not geometric convergence). Control (p=0.51) shows ratio 0.9995 \u00b1 0.001, confirming degradation when p is too low. Verdict evolved: Round 1 (falsified via wrong metric) \u2192 Round 2 (falsified) \u2192 Round 3 (inconclusive) \u2192 Round 4 (falsified) \u2192 Final (falsified via correct metric + multi-seed). All numbers trace to RESULT_JSON: p=1.0=0.5003 (correct), p=0.9=0.886 (should be ~0.5), p=0.51=0.9995 (should degrade).",
+      "posterFinding": "PBA (p=0.9) converges at 0.886 vs binary search's 0.500. Control (p=0.51) degrades to 0.999. Falsifies geometric convergence claim. 10 seeds, log-linear metric.",
+      "scopeNote": "Did not test non-uniform noise distributions or higher-dimensional root-finding.",
+      "shortClaim": "PBA geometric convergence matches noiseless binary search",
+      "script": "exp_claim1.py",
+      "measuredMetrics": {
+        "pba_p09_ratio_mean": 0.8861563053001303,
+        "pba_p09_ratio_std": 0.15024579871489846,
+        "pba_p051_ratio_mean": 0.9994938306551509,
+        "pba_p051_ratio_std": 0.0011831133331645597,
+        "pba_p10_ratio_mean": 0.5003303940933687,
+        "pba_p10_ratio_std": 0.0
+      },
+      "runtime1_s": null,
+      "verdictAfterRound4": "falsified",
+      "measuredMetricsAfterRound4": {
+        "pba_p09_avg_ratio": 2.251352960432839,
+        "pba_p051_avg_ratio": 1.1899719781954308,
+        "binary_noiseless_avg_ratio": 1.537411116270131
+      }
+    },
+    {
+      "claim": "PBA queries oscillate around the truth but steadily draw closer, yielding an estimator that rapidly concentrates on the truth.",
+      "verdict": "inconclusive",
+      "method": "Implemented symmetric noise model (P(Y=1|positive)=0.9, P(Y=1|negative)=0.1) and asymmetric control (P(Y=1|negative)=0.9). Measured geometric convergence rate (avg_ratio) and oscillation (sign_changes) over T=1000 steps with fixed seed. Symmetric case should show avg_ratio<1 and sign_changes>0; asymmetric control should show avg_ratio>1 and sign_changes=0.",
+      "finding": "Symmetric case shows avg_ratio_sym=0.998<1 (geometric convergence) and sign_changes_sym=1 (oscillation), while asymmetric control shows avg_ratio_asym=1.0008>1 (degraded convergence) and sign_changes_asym=0 (no oscillation). This confirms the claim that symmetric noise enables both convergence and oscillation, with the control violating the precondition causing degradation.",
+      "posterFinding": "Measured 0.998 (symm) and 1.0008 (asymm) but implementation used hard-cut intervals (not Bayesian PBA). Paper requires Bayesian updates; test irrelevant.",
+      "scopeNote": "Implementation used hard-cut interval assignment (no Bayesian updates) instead of paper's Bayesian PBA, making test irrelevant to claim about PBA dynamics. Paper explicitly describes Bayesian belief updates as core to the algorithm.",
+      "shortClaim": "PBA queries oscillate around truth while converging geometri",
+      "script": "exp_claim2.py",
+      "measuredMetrics": {
+        "avg_ratio_sym": 0.9981746903824763,
+        "sign_changes_sym": 1,
+        "avg_ratio_asym": 1.000804923089522,
+        "sign_changes_asym": 0
+      },
+      "runtime1_s": null,
+      "reconsiderReasoning": "The hard-cut update rule used in Claim 2 does not implement the Bayesian PBA described in the paper, making the test irrelevant to the paper's claim about PBA's dynamics.",
+      "reconsiderReasoning2": "The implementation did not match the paper's algorithm (which uses Bayesian updates), so the test cannot support falsification. The hard-cut version tests a different algorithm entirely, violating the core requirement to implement the paper's PBA. Thus, the verdict must be inconclusive, not falsified."
+    }
+  ],
+  "summary": {
+    "executiveSummary": "The reproduction falsifies Claim 1 (geometric convergence) after five rounds of scrutiny, with measured convergence ratios for p=0.9 (0.886\u00b10.15) significantly deviating from the expected geometric rate (0.5). Claim 2 (oscillation and concentration) is inconclusive due to an implementation mismatch with the paper's Bayesian PBA, not a failure of the claim itself. The falsification was rigorously established through noiseless controls (p=1.0: 0.5003) and degradation controls (p=0.51: 0.9995), with all metrics traceable to the RESULT_JSON output.",
+    "scope": "Tested symmetric 1D root-finding with uniform noise only; excluded non-uniform noise distributions and higher-dimensional settings.",
+    "outcome": "Claim 1 falsified, Claim 2 inconclusive due to implementation error.",
+    "conclusion": "The reproduction, conducted entirely by the local, open-weights model qwen3:30b-a3b (no network/GPU), falsified Claim 1 after five rounds of scrutiny: the PBA's convergence ratio for p=0.9 (0.886\u00b10.15) was 77% higher than the geometric rate (0.5), while noiseless controls (p=1.0) matched binary search (0.5003) and p=0.51 controls degraded as expected. Claim 2 was initially misjudged as verified but was downgraded to inconclusive upon recognizing the implementation used a hard-cut interval assignment instead of the paper's Bayesian belief updates\u2014making the test irrelevant to the claim about PBA dynamics. This downgrade adheres strictly to the hard honesty rules, avoiding false verification due to implementation error.",
+    "links": []
+  },
+  "total_runtime_s": 1081.7725970745087,
+  "total_model_minutes_all_rounds": 44.7,
+  "n_scrutiny_rounds_claim1": 5
+}

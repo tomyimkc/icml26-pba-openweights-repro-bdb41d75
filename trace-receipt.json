@@ -1,0 +1,10 @@
+{
+ "events": 94,
+ "scrubbedLines": 16,
+ "srcBytes": 704901,
+ "destBytes": 704739,
+ "orid": "Zlw4Kl5HEF",
+ "trace": "~/icml26-factory/papers/Zlw4Kl5HEF/trace.jsonl",
+ "source": "~/icml26-factory/papers/Zlw4Kl5HEF/orx-openweights-trace.jsonl",
+ "note": "Open-weights reproduction: this is the FULL recorded session of qwen3:30b-a3b (via Ollama) as the reproducing agent, not a Claude subagent transcript. Produced by driver_openweights.py (initial claim1+claim2 write/verdict rounds) and challenge_claim1.py (the claim-1 falsification-scrutiny round). Scrubbed with the same lib/traces.py:scrub() used for the other papers in this factory."
+}

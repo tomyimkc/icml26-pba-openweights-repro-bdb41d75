@@ -1,0 +1,21 @@
+{
+ "orid": "Zlw4Kl5HEF",
+ "pid": "63131",
+ "i": 18951,
+ "title": "Probabilistic Bisection Algorithm Provably Achieves Exponential Convergence",
+ "area": "Theory",
+ "sub": "Active Learning And Interactive Learning",
+ "arxiv": "",
+ "nClaims": 2,
+ "claims": [
+  "The probabilistic bisection algorithm (PBA) converges at a geometric rate, matching the performance of classical binary search under noiseless responses.",
+  "PBA queries oscillate around the truth but steadily draw closer, yielding an estimator that rapidly concentrates on the truth."
+ ],
+ "perClaimScore": [
+  2.5,
+  1.0
+ ],
+ "score": 11.38,
+ "alreadyMine": false,
+ "abstract": "The probabilistic bisection algorithm (PBA) extends the classical binary search to settings with noisy responses, and is a foundational algorithm commonly used in basic problems such as root-finding. Despite its strong empirical success, its theoretical property, particularly the convergence rate, remains unclear. This paper establishes that PBA converges at a geometric rate, providing a rigorous justification for its empirical efficiency. Notably, this rate is optimal in the sense that it matches the performance of classical binary search under noiseless responses. The core of our analysis lies in directly characterizing the dynamics of PBA queries, which had not been examined in the prior literature. We show that the queries oscillate around the truth but steadily draw closer, thus leading to an estimator that rapidly concentrates on the truth. Beyond resolving the long-standing question of PBA\u2019s convergence, our developed techniques offer new tools for analyzing PBA's dynamics, which may be of independent interest."
+}

@@ -1,0 +1,16 @@
+{
+ "exp_claim1.py": {
+  "pba_p09_ratio_mean": 0.8861563053001303,
+  "pba_p09_ratio_std": 0.15024579871489846,
+  "pba_p051_ratio_mean": 0.9994938306551509,
+  "pba_p051_ratio_std": 0.0011831133331645597,
+  "pba_p10_ratio_mean": 0.5003303940933687,
+  "pba_p10_ratio_std": 0.0
+ },
+ "exp_claim2.py": {
+  "avg_ratio_sym": 0.9981746903824763,
+  "sign_changes_sym": 1,
+  "avg_ratio_asym": 1.000804923089522,
+  "sign_changes_asym": 0
+ }
+}
