@@ -8,9 +8,21 @@
   "pba_p10_ratio_std": 0.0
  },
  "exp_claim2.py": {
-  "avg_ratio_sym": 0.9981746903824763,
-  "sign_changes_sym": 1,
-  "avg_ratio_asym": 1.000804923089522,
-  "sign_changes_asym": 0
+  "r_0.99_mean": 0.9895773107815153,
+  "r_0.99_std": 0.0,
+  "oscillation_0.99_mean": 12.0,
+  "oscillation_0.99_std": 0.0,
+  "r_0.51_mean": 0.999834402573275,
+  "r_0.51_std": 0.0009686649085048665,
+  "oscillation_0.51_mean": 10.333333333333334,
+  "oscillation_0.51_std": 7.586537784494028,
+  "r_0.50_mean": 1.0,
+  "r_0.50_std": 0.0,
+  "oscillation_0.50_mean": 0.0,
+  "oscillation_0.50_std": 0.0,
+  "r_0.49_mean": 0.9990712652972845,
+  "r_0.49_std": 0.0011020120949163637,
+  "oscillation_0.49_mean": 19.333333333333332,
+  "oscillation_0.49_std": 21.9291789378647
  }
 }

@@ -9,7 +9,7 @@ scrub()/build_trace() logic from lib/traces.py (imported, not modified) so the
 public trace.jsonl follows the repo's existing convention: home paths -> ~,
 secret-shaped tokens redacted, one JSON object per line.
 
-Run: ~/.venvs/icml26/bin/python stage_trace.py
+Run: /Users/tom/.venvs/icml26/bin/python stage_trace.py
 """
 from __future__ import annotations
 
@@ -40,8 +40,13 @@ def main() -> int:
             "Open-weights reproduction: this is the FULL recorded session of "
             "qwen3:30b-a3b (via Ollama) as the reproducing agent, not a Claude "
             "subagent transcript. Produced by driver_openweights.py (initial "
-            "claim1+claim2 write/verdict rounds) and challenge_claim1.py (the "
-            "claim-1 falsification-scrutiny round). Scrubbed with the same "
+            "claim1+claim2 write/verdict rounds), challenge_claim1.py rounds "
+            "1-5 (the claim-1 falsification-scrutiny rounds), claim2_reconsider.py "
+            "/ claim2_reconsider2.py (Claim 2's self-caught inconsistency, "
+            "landing on an honest inconclusive), and challenge_claim2_round1/2/3.py "
+            "(three further scrutiny rounds, triggered by an independent judge's "
+            "verbatim feedback, that implemented the real Bayesian PBA and reached "
+            "a verified verdict for Claim 2). Scrubbed with the same "
             "lib/traces.py:scrub() used for the other papers in this factory."
         ),
     })

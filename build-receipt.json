@@ -5,7 +5,7 @@
  "claims": 2,
  "verdicts": [
   "falsified",
-  "inconclusive"
+  "verified"
  ],
- "workdir": "~/icml26-factory/papers/Zlw4Kl5HEF/logbook"
+ "workdir": "/Users/tom/icml26-factory/papers/Zlw4Kl5HEF/logbook"
 }
