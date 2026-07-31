@@ -1,0 +1,8 @@
+# Python bytecode caches (never commit)
+__pycache__/
+*.pyc
+
+# Run artifacts regenerated each run (tracked copies live in .openresearch/artifacts/)
+# The .openresearch/ dir itself IS committed (run.sh, EVAL.md, artifacts) — only
+# transient byproducts are ignored here.
+*.pyc
