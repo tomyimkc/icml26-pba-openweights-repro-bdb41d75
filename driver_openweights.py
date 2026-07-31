@@ -23,6 +23,7 @@ Run: ~/.venvs/icml26/bin/python driver_openweights.py
 from __future__ import annotations
 
 import json
+import os
 import re
 import subprocess
 import sys
@@ -33,8 +34,13 @@ from pathlib import Path
 PAPER_DIR = Path(__file__).resolve().parent
 TRACE_PATH = PAPER_DIR / "orx-openweights-trace.jsonl"
 MODEL = "qwen3:30b-a3b"
-OLLAMA_URL = "http://localhost:11434/api/chat"
-PYTHON_BIN = "~/.venvs/icml26/bin/python"  # same interpreter build_logbook.py uses
+OLLAMA_URL = os.environ.get("OLLAMA_URL", "http://localhost:11434/api/chat")
+# Prefer the dedicated venv (matches build_logbook.py's interpreter); expand `~`
+# because subprocess.run does NOT expand it, which would raise FileNotFoundError
+# when run through the orx harness (whose cwd is the repo root, not ~).
+PYTHON_BIN = os.path.expanduser("~/.venvs/icml26/bin/python")
+if not os.path.exists(PYTHON_BIN):
+    PYTHON_BIN = sys.executable  # fall back to whatever interpreter is running this
 NUM_CTX = 24576
 MAX_ATTEMPTS_PER_CLAIM = 6
 SCRIPT_TIMEOUT_S = 400  # contract says "under 5 minutes"; leave slack for a slow CPU run
