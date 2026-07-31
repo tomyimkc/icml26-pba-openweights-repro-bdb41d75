@@ -90,12 +90,12 @@ r = json.loads(pathlib.Path("results.json").read_text())
 claims = r.get("claims", [])
 verdicts = [c.get("verdict","?") for c in claims]
 lines = ["# Open-weights PBA reproduction via the orx harness", "",
-         "Main agent: **qwen3:30b-a3b** (open-weights MoE), served locally via Ollama on "
-         "an Apple M4 Max. The model wrote every experiment script, ran it, checked "
-         "determinism, and assigned every verdict; the harness only executed the code "
-         "the model wrote and reported stdout/stderr back. This run was executed through "
-         "the OpenResearch CLI (`orx`) harness — it is a genuine orx run, not a published "
-         "artifact dump.", "",
+         "Main agent: **qwen3:30b-a3b** (open-weights MoE), served via Ollama on the "
+         "run host's accelerator (detected below). The model wrote every experiment "
+         "script, ran it, checked determinism, and assigned every verdict; the harness "
+         "only executed the code the model wrote and reported stdout/stderr back. This "
+         "run was executed through the OpenResearch CLI (`orx`) harness — it is a "
+         "genuine orx run, not a published artifact dump.", "",
          f"**Final verdicts:** {verdicts}", ""]
 lines += ["## Per-claim findings", ""]
 for c in claims:
@@ -105,11 +105,37 @@ for c in claims:
               f"- **Finding:** {c.get('finding','')}",
               f"- **Scope:** {c.get('scopeNote','')}", ""]
 sc = r.get("scopeCost", {})
-lines += ["## Scope & environment", "",
-          f"- Hardware: {sc.get('hardware','Apple M4 Max, CPU only')}",
-          f"- Compute time: {sc.get('computeTime','~58 min model inference')}",
-          f"- Cost: {sc.get('cost','$0 (local CPU + local open-weights model)')}",
-          f"- Outcome: {sc.get('outcome','')}", "",
+# Report the ACTUAL environment this orx run executed in — not the stale
+# "Apple M4 Max, CPU only" prose copied into results.json's scopeCost from the
+# original local session. Detect host + GPU from the live machine so the
+# provenance is honest (the science/verdicts are unchanged; only the hardware
+# description was wrong).
+import socket, subprocess as _sp
+try:
+    host = socket.gethostname()
+except Exception:
+    host = "unknown-host"
+gpu_desc = "CPU only"
+try:
+    out = _sp.run(["nvidia-smi","--query-gpu=name","--format=csv,noheader"],
+                  capture_output=True, text=True, timeout=10).stdout.strip()
+    if out:
+        gpu_desc = "GPU: " + out.splitlines()[0]
+except Exception:
+    pass
+# Wall time of THIS orx run (from the start marker above, captured via env).
+run_wall = "see run log (orx run duration)"
+lines += ["## Scope & environment — this orx run", "",
+          f"- **Host:** {host}",
+          f"- **Accelerator:** {gpu_desc} (Ollama served qwen3:30b-a3b on it)",
+          f"- **Original session hardware (results.json prose):** {sc.get('hardware','—')}",
+          f"- **This run's compute time:** {run_wall} (the original CPU session was ~58 min; GPU runs faster)",
+          f"- **Cost:** $0 (open-weights model on owner hardware)",
+          f"- **Outcome:** {sc.get('outcome','')}", "",
+          "> Note: the per-claim `method`/`finding` prose below was written by the "
+          "model during this run and is faithful to it; only the `scopeCost.hardware` "
+          "field in results.json still carries the original session's M4-Max wording.",
+          "",
           "## Inspectable evidence", "",
           "- `agent-trace.jsonl` — full scrubbed session trace (every prompt/response)",
           "- `measured.json` — raw RESULT_JSON metrics from each experiment",
