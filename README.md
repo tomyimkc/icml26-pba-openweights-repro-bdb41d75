@@ -256,5 +256,16 @@ faithful implementation is reached — is not expected to change.
 - Only symmetric, one-dimensional root-finding under uniform noise was
   tested; non-uniform noise distributions and higher-dimensional settings
   were out of scope.
-- This reproduction is a **record of a completed, already-run session** —
-  publishing it here does not re-run any compute.
+- **Genuine orx run.** The agent pipeline above is not just a published record —
+  it has been re-executed end-to-end as a real, tracked OpenResearch CLI (`orx`)
+  run, with `qwen3:30b-a3b` as the main agent driving every stage (initial
+  write/run/verdict loop, the five Claim-1 scrutiny rounds, the Claim-2
+  reconsider, and the three judge-feedback rounds). That run reached the same
+  verdicts independently (Claim 1 falsified, Claim 2 verified), recorded a full
+  run log, and emitted inspectable artifacts (`agent-trace.jsonl`, `measured.json`,
+  `results.json`, `EVAL.md`) under `.openresearch/artifacts/`. The run command is
+  `bash .openresearch/run.sh`; see the experiment branches
+  `orx/open-weights-pba-via-orx-harness-full-agent-loop*`. The original local
+  session (whose scrubbed trace is published here as `trace.jsonl`) ran on an
+  Apple M4 Max CPU; the orx re-run executed on a Blackwell-class GPU via Ollama,
+  which is why its wall time (~10 min) is shorter than the original (~58 min).
